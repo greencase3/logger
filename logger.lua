@@ -4,9 +4,9 @@ function playerActionsSetup(pid)
   local ip = players.get_connect_ip(pid)
   local name = players.get_name(pid)
   local id = tostring(name)
-  local ipString = string.format("[%i.%i.%i.%i]", ip >> 24 & 255, ip >> 16 & 255, ip >> 8 & 255, ip & 255)
+  local get_ip= string.format("[%i.%i.%i.%i]", ip >> 24 & 255, ip >> 16 & 255, ip >> 8 & 255, ip & 255)
 
-  if ipString == "[255.255.255.255]" then
+  if get_ip == "[255.255.255.255]" then
     local filename = filesystem.store_dir() .. "logg.txt"
     local file = io.open(filename, "a")
   
@@ -14,7 +14,7 @@ function playerActionsSetup(pid)
     file:close()
     return
   end
-
+  local filename = filesystem.store_dir() .. "logg.txt"
   local file = io.open(filename, "r")
   local lines = {}
   if file then
@@ -27,10 +27,10 @@ function playerActionsSetup(pid)
     file:close()
   end
 
-  if not lines[ipString] then
+  if not lines[get_ip] then
     local file = io.open(filename, "a") 
 
-    file:write("Player " .. id .. " " .. ipString .. "\n")
+    file:write("Player " .. id .. " " .. get_ip .. "\n")
     file:close()
   end
 end
