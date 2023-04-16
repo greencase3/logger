@@ -1,5 +1,5 @@
 require "natives-1627063482"
---greensky
+--made by greensky
 function playerActionsSetup(pid)
   local ip = players.get_connect_ip(pid)
   local name = players.get_name(pid)
