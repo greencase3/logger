@@ -5,17 +5,18 @@ function playerActionsSetup(pid)
   local name = players.get_name(pid)
   local os = os.date("%Y-%m-%d %H:%M:%S")
   local id = tostring(name)
-  local get_ips= string.format("[%i.%i.%i.%i]", ip >> 24 & 255, ip >> 16 & 255, ip >> 8 & 255, ip & 255)
+  local get_ips = string.format("[%i.%i.%i.%i]", ip >> 24 & 255, ip >> 16 & 255, ip >> 8 & 255, ip & 255)
+  local vpn = players.is_using_vpn(pid)
 
   if get_ips == "[255.255.255.255]" then
     local filename = filesystem.store_dir() .. "logg.txt"
     local file = io.open(filename, "a")
   
     file:write("[" ..os.."]".."Player " .. id .. " [error]\n")
-    util.toast("Player " .. id .. " [error]\n",TOAST_CONSOLE)
     file:close()
     return
   end
+
   local filename = filesystem.store_dir() .. "logg.txt"
   local file = io.open(filename, "r")
   local lines = {}
@@ -29,12 +30,13 @@ function playerActionsSetup(pid)
     file:close()
   end
 
-  if not lines[get_ips] then
+  if name == players.get_name(players.user())  then
+    return
+  else if not lines[get_ips] then
     local file = io.open(filename, "a") 
-
-    file:write("[" ..os.."]".."Player " .. id .. " " ..get_ips .. "\n")
-    util.toast("Player " .. id .. " " ..get_ips .. "\n",TOAST_CONSOLE)
-    file:close()
+    file:write("[" ..os.."]".."Player " .. id .. " " ..get_ips .."[VPN="..vpn.."]".. "\n")
+     file:close()
+    end
   end
 end
 
